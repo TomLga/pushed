@@ -29,11 +29,11 @@ export default createStore({
     setProduct(state, product) {
       state.product = product
     },
-    setSpinner(state, value) {
-      state.spinner = value
+    setSpinner(state, spinner) {
+      state.spinner = spinner
     },
     setToken(state, token) {
-      state.spinner = spinner
+      state.spinner = token
     },
     setMsg(state, msg) {
       state.msg = msg
@@ -51,9 +51,9 @@ export default createStore({
     },
     async fetchUsers(context) {
       try {
-        const { data } = (await axios.get(`${cUrl}users`));
+        const { data } = await axios.get(`${cUrl}users`);
         context.commit("setUsers", data.results); 
-      } catch (e) {
+      }catch(e){
         context.commit("setMsg", "error occ");
       }
     },
