@@ -1,64 +1,55 @@
-import { createStore } from 'vuex'
 import axios from 'axios'
-const cUrl = "https://node-eomp-aqz0.onrender.com/"
-
-
+import { createStore } from 'vuex'
+const cUrl = "https://node-eomp-vue.onrender.com/"
 export default createStore({
   state: {
-    users: null,
-    user: null,
-    products: null,
     product: null,
-    spinner: false,
-    token: null,
-    msg: null
+    products: null,
+    message: null
   },
   getters: {
   },
   mutations: {
- 
-    setUsers(state, users) {
-      state.users = users
+    setProducts(state, value) {
+      state.products = value
     },
-    setUser(state, user) {
-      state.user = user
+    setProduct( state, value) {
+      state.product = value
     },
-    setProducts(state, products) {
-      state.products = products
-    },
-    setProduct(state, product) {
-      state.product = product
-    },
-    setSpinner(state, value) {
-      state.spinner = value
-    },
-    setToken(state, token) {
-      state.spinner = spinner
-    },
-    setMsg(state, msg) {
-      state.msg = msg
+    setMessage(state, value){
+      state.message = value
     }
   },
-
   actions: {
-    async fetchProds(context) {
-      try {
-        const { data } = await axios.get(`${cUrl}products`);
-        context.commit("setProducts", data.results); 
-      } catch (e) {
-        context.commit("setMsg", "error occ");
+    async fetchProducts(context) {
+      const res = await axios.get(`${cUrl}products`)
+      const {results, err} = await res.data;
+      if(results) {
+        context.commit('setProducts', results)
+      }else {
+        context.commit('setMessage', err)
       }
     },
-    async fetchUsers(context) {
-      try {
-        const { data } = (await axios.get(`${cUrl}users`));
-        context.commit("setUsers", data.results); 
-      } catch (e) {
-        context.commit("setMsg", "error occ");
+    async fetchProduct(context, id) {
+      const res = await axios.get(`${cUrl}product/${id}`)
+      const {results, err} = await res.data;
+      if(results) {
+        context.commit('setProduct', results[0])
+      }else{
+        context.commit('setMessage', err)
       }
     },
-
-
+    async addProduct(context, payload) {
+      const res = await axios.post(`${cUrl}products`, payload)
+      const {msg, err} = await res.data;
+      if(msg) {
+        context.commit('setMessage', msg)
+      }else if (err) {
+        console.log(err);
+        context.commit('setMessage', err)
+      }
+    }
+  },
+  modules: {
   }
-  
 })
