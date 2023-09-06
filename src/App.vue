@@ -1,23 +1,30 @@
 <template>
-  <div>
-    <NavBarComp />
-    <main class="container-fluid">
-      <router-view/>
-    </main>
-    <FooterComp />
-  </div>
+  <nav>
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link>
+  </nav>
+  <router-view/>
 </template>
 
-<script>
-import FooterComp from './components/FooterComp.vue';
-import NavBarComp from './components/NavBarComp.vue';
-
-export default {
-  name: 'App',
-  components: {
-    NavBarComp,
-    FooterComp,
- 
-  }
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
-</script>
+
+nav {
+  padding: 30px;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
+}
+</style>
